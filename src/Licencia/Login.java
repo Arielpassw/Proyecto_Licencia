@@ -93,7 +93,7 @@ public class Login extends JFrame {
                 break;
 
             case "ANALISTA":
-                new Modulos().setVisible(true);
+                new Analista().setVisible(true);
                 break;
 
             default:
