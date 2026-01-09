@@ -65,7 +65,7 @@ public class Analista extends JFrame {
         int fila = table1.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this,
-                    "Seleccione un trámite de la tabla",
+                    "Seleccione un Id de la tabla",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE);
             return;

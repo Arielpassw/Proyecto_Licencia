@@ -39,6 +39,28 @@ public class Verificar extends Btn_Regresar_base {
         btnRechazar.addActionListener(e -> rechazarRequisitos());
     }
 
+
+    private void crearRequisitos() {
+        String sql = "INSERT INTO requisitos (id_tramite) VALUES (?)";
+
+        try (Connection con = new Conexion().getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idTramite);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Error al crear requisitos",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            e.printStackTrace();
+        }
+    }
+
+
     private void cargarDatos() {
         String sql = "SELECT certificado_medico, pago, multas, observaciones " +
                 "FROM requisitos WHERE id_tramite = ?";
@@ -55,7 +77,10 @@ public class Verificar extends Btn_Regresar_base {
                 CheckBoxMultas.setSelected(rs.getInt("multas") == 1);
                 txtObservaciones.setText(rs.getString("observaciones") == null ? "" : rs.getString("observaciones"));
             } else {
-                JOptionPane.showMessageDialog(this, "No existen requisitos registrados para este trámite",
+                // Si NO existe, se crea
+                crearRequisitos();
+                JOptionPane.showMessageDialog(this,
+                        "Se ha creado un registro de requisitos para este trámite.",
                         "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
 
@@ -64,6 +89,7 @@ public class Verificar extends Btn_Regresar_base {
             e.printStackTrace();
         }
     }
+
 
     private void aprobarRequisitos() {
         actualizarRequisitos(1);

@@ -29,27 +29,23 @@ public class Administrador extends JFrame {
         setLocationRelativeTo(null);
 
         cargarTablaAdmin();
+
+        // Bloquear edición de la tabla
         table1.setDefaultEditor(Object.class, null);
 
+        // Botones
         btnResgistar.addActionListener(e -> {
             new Registro("ADMIN").setVisible(true);
             setVisible(false);
         });
 
         btnVerificar.addActionListener(e -> abrirSeleccionado(Verificar.class));
-
         btnExamenes.addActionListener(e -> abrirSeleccionado(Examenes.class));
-
         btnTramites.addActionListener(e -> new Gestion("ADMIN").setVisible(true));
-
         btnDetalles.addActionListener(e -> abrirSeleccionado(Detalles.class));
-
         btnLicencia.addActionListener(e -> abrirSeleccionado(Licencia.class));
-
         btnUsuarios.addActionListener(e -> new Usuarios("ADMIN").setVisible(true));
-
         btnReportes.addActionListener(e -> new Reportes("ADMIN").setVisible(true));
-
         btnCerrar.addActionListener(e -> System.exit(0));
     }
 
@@ -95,13 +91,14 @@ public class Administrador extends JFrame {
         modelo.addColumn("Observaciones");
 
         String sql =
-                "SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, " +
-                        "t.fecha_solicitud, t.estado, e.resultado, r.observaciones, " +
-                        "IFNULL(r.certificado_medico,0) " +
+                "SELECT " +
+                        "t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, " +
+                        "t.fecha_solicitud, t.estado, " +
+                        "(SELECT e.resultado FROM examen e WHERE e.id_tramite = t.id_tramite LIMIT 1) AS resultado, " +
+                        "(SELECT r.observaciones FROM requisitos r WHERE r.id_tramite = t.id_tramite LIMIT 1) AS observaciones, " +
+                        "(SELECT IFNULL(r.certificado_medico,0) FROM requisitos r WHERE r.id_tramite = t.id_tramite LIMIT 1) AS certificado_medico " +
                         "FROM tramite t " +
-                        "JOIN solicitante s ON t.id_solicitante = s.id_solicitante " +
-                        "LEFT JOIN examen e ON t.id_tramite = e.id_tramite " +
-                        "LEFT JOIN requisitos r ON t.id_tramite = r.id_tramite";
+                        "JOIN solicitante s ON t.id_solicitante = s.id_solicitante";
 
         try (Connection con = new Conexion().getConexion();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -109,15 +106,15 @@ public class Administrador extends JFrame {
 
             while (rs.next()) {
                 modelo.addRow(new Object[]{
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getDate(5),
-                        rs.getString(6),
-                        rs.getString(7) == null ? "Pendiente" : rs.getString(7),
-                        rs.getBoolean(9) ? "Sí" : "No",
-                        rs.getString(8) == null ? "" : rs.getString(8)
+                        rs.getInt("id_tramite"),
+                        rs.getString("cedula"),
+                        rs.getString("nombre"),
+                        rs.getString("tipos_licencia"),
+                        rs.getDate("fecha_solicitud"),
+                        rs.getString("estado"),
+                        rs.getString("resultado") == null ? "Pendiente" : rs.getString("resultado"),
+                        rs.getBoolean("certificado_medico") ? "Sí" : "No",
+                        rs.getString("observaciones") == null ? "" : rs.getString("observaciones")
                 });
             }
 
