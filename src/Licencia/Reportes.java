@@ -1,14 +1,12 @@
 package Licencia;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Reportes extends Btn_Regresar_base{
     private JPanel Reporte;
     private JTable tableReporte;
     private JTextField txtFiltrar;
-    private JComboBox comboBox1;
+    private JComboBox comboLicencia;
     private JButton btnDetalles;
     private JButton btnBuscar;
     private JButton btnExportar;

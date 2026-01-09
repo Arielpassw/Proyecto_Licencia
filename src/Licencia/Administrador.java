@@ -36,48 +36,51 @@ public class Administrador extends JFrame {
             setVisible(false);
         });
 
-        btnVerificar.addActionListener(e -> {
-            new Verificar("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnVerificar.addActionListener(e -> abrirSeleccionado(Verificar.class));
 
-        btnExamenes.addActionListener(e -> {
-            new Examenes("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnExamenes.addActionListener(e -> abrirSeleccionado(Examenes.class));
 
-        btnTramites.addActionListener(e -> {
-            new Gestion("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnTramites.addActionListener(e -> new Gestion("ADMIN").setVisible(true));
 
-        btnDetalles.addActionListener(e -> {
-            new Detalles("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnDetalles.addActionListener(e -> abrirSeleccionado(Detalles.class));
 
-        btnLicencia.addActionListener(e -> {
-            new Licencia("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnLicencia.addActionListener(e -> abrirSeleccionado(Licencia.class));
 
-        btnUsuarios.addActionListener(e -> {
-            new Usuarios("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnUsuarios.addActionListener(e -> new Usuarios("ADMIN").setVisible(true));
 
-        btnReportes.addActionListener(e -> {
-            new Reportes("ADMIN").setVisible(true);
-            setVisible(false);
-        });
+        btnReportes.addActionListener(e -> new Reportes("ADMIN").setVisible(true));
 
         btnCerrar.addActionListener(e -> System.exit(0));
     }
 
-    // TABLA ADMINISTRADOR
+    private void abrirSeleccionado(Class<?> clase) {
+        int fila = table1.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un trámite de la tabla",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int idTramite = Integer.parseInt(table1.getValueAt(fila, 0).toString());
+
+        try {
+            if(clase == Detalles.class)
+                new Detalles("ADMIN", idTramite).setVisible(true);
+            else if(clase == Verificar.class)
+                new Verificar("ADMIN", idTramite).setVisible(true);
+            else if(clase == Examenes.class)
+                new Examenes("ADMIN", idTramite).setVisible(true);
+            else if(clase == Licencia.class)
+                new Licencia("ADMIN", idTramite).setVisible(true);
+
+            setVisible(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private void cargarTablaAdmin() {
-
         DefaultTableModel modelo = new DefaultTableModel();
         table1.setModel(modelo);
 
@@ -113,8 +116,8 @@ public class Administrador extends JFrame {
                         rs.getDate(5),
                         rs.getString(6),
                         rs.getString(7) == null ? "Pendiente" : rs.getString(7),
-                        rs.getBoolean(8) ? "Sí" : "No",
-                        rs.getString(9) == null ? "" : rs.getString(8),
+                        rs.getBoolean(9) ? "Sí" : "No",
+                        rs.getString(8) == null ? "" : rs.getString(8)
                 });
             }
 

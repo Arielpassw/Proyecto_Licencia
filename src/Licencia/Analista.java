@@ -32,37 +32,63 @@ public class Analista extends JFrame {
         // Bloquear edición de la tabla
         table1.setDefaultEditor(Object.class, null);
 
+        // Botón Registrar Solicitante
         btnResgistar.addActionListener(e -> {
             new Registro("ANALISTA").setVisible(true);
             setVisible(false);
         });
 
-        btnVerificar.addActionListener(e -> {
-            new Verificar("ANALISTA").setVisible(true);
-            setVisible(false);
-        });
+        // Botón Verificar Requisitos
+        btnVerificar.addActionListener(e -> abrirFormularioConId(Verificar.class));
 
-        btnExamenes.addActionListener(e -> {
-            new Examenes("ANALISTA").setVisible(true);
-            setVisible(false);
-        });
+        // Botón Registrar Exámenes
+        btnExamenes.addActionListener(e -> abrirFormularioConId(Examenes.class));
 
+        // Botón Gestión de Trámites
         btnTramites.addActionListener(e -> {
             new Gestion("ANALISTA").setVisible(true);
             setVisible(false);
         });
 
-        btnDetalles.addActionListener(e -> {
-            new Detalles("ANALISTA").setVisible(true);
-            setVisible(false);
-        });
+        // Botón Detalles
+        btnDetalles.addActionListener(e -> abrirFormularioConId(Detalles.class));
 
-        btnLicencia.addActionListener(e -> {
-            new Licencia("ANALISTA").setVisible(true);
-            setVisible(false);
-        });
+        // Botón Licencia
+        btnLicencia.addActionListener(e -> abrirFormularioConId(Licencia.class));
 
+        // Botón Cerrar
         btnCerrar.addActionListener(e -> System.exit(0));
+    }
+
+    // MÉTODO PARA ABRIR FORMULARIOS QUE REQUIEREN ID DE TRÁMITE
+    private void abrirFormularioConId(Class<?> formulario) {
+        int fila = table1.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un trámite de la tabla",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int idTramite = Integer.parseInt(table1.getValueAt(fila, 0).toString());
+        try {
+            if (formulario == Verificar.class) {
+                new Verificar("ANALISTA", idTramite).setVisible(true);
+            } else if (formulario == Examenes.class) {
+                new Examenes("ANALISTA", idTramite).setVisible(true);
+            } else if (formulario == Detalles.class) {
+                new Detalles("ANALISTA", idTramite).setVisible(true);
+            } else if (formulario == Licencia.class) {
+                new Licencia("ANALISTA", idTramite).setVisible(true);
+            }
+            setVisible(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al abrir el formulario",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     // MÉTODO PARA CARGAR TABLA
