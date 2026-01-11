@@ -18,8 +18,8 @@ public class Login extends JFrame {
 
         setTitle("Login");
         setContentPane(Login);
+        setSize(450, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
         setLocationRelativeTo(null);
 
         ingresarButton.addActionListener(e -> autenticar());

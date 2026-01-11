@@ -22,7 +22,7 @@ public class Usuarios extends Btn_Regresar_base {
 
         setTitle("Usuarios");
         setContentPane(Gestion);
-        setSize(600,400);
+        setSize(950, 650);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

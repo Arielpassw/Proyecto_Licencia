@@ -3,6 +3,8 @@ package Licencia;
 import DataBase.Conexion;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +21,7 @@ public class Administrador extends JFrame {
     private JButton btnLicencia;
     private JButton btnUsuarios;
     private JButton btnReportes;
+    private JButton crearUsuarioButton;
     private JTable table1;
 
     public Administrador() {
@@ -44,9 +47,16 @@ public class Administrador extends JFrame {
         btnTramites.addActionListener(e -> new Gestion("ADMIN").setVisible(true));
         btnDetalles.addActionListener(e -> abrirSeleccionado(Detalles.class));
         btnLicencia.addActionListener(e -> abrirSeleccionado(Licencia.class));
-        btnUsuarios.addActionListener(e -> new Usuarios("ADMIN").setVisible(true));
         btnReportes.addActionListener(e -> new Reportes("ADMIN").setVisible(true));
         btnCerrar.addActionListener(e -> System.exit(0));
+
+        crearUsuarioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    new Crear("ADMIN").setVisible(true);
+                    setVisible(false);
+            }
+        });
     }
 
     private void abrirSeleccionado(Class<?> clase) {

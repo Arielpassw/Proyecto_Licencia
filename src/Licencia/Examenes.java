@@ -21,7 +21,7 @@ public class Examenes extends Btn_Regresar_base {
 
         setTitle("Exámenes");
         setContentPane(Registro);
-        setSize(400, 350);
+        setSize(500, 350);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

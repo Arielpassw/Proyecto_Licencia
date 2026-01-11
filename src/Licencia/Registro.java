@@ -25,7 +25,7 @@ public class Registro extends Btn_Regresar_base {
         setTitle("Registro Solicitante");
         setContentPane(Registrar);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 350);
+        setSize(650, 420);
         setLocationRelativeTo(null);
 
         // nueva conexion con la base de datos
