@@ -1,8 +1,9 @@
 package Licencia;
 
 import DataBase.Conexion;
-
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileWriter;
 import java.sql.Connection;
@@ -13,57 +14,79 @@ public class Reportes extends Btn_Regresar_base {
 
     private JPanel Reporte;
     private JTable tableReporte;
-    private JTextField txtFiltrar; // cédula
+    private JTextField txtFiltrar;
     private JButton btnDetalles;
     private JButton btnBuscar;
     private JButton btnExportar;
     private JButton btnRegresar;
+    private JTextArea textArea;
 
     private DefaultTableModel modelo;
 
     public Reportes(String rolOrigen) {
         super(rolOrigen);
 
-        setTitle("Reportes");
-        setSize(700, 400);
-        setVisible(true);
+        setTitle("Reportes - Administrador");
+        setSize(950, 650);
         setContentPane(Reporte);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // TABLA
         modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Fecha");
-        modelo.addColumn("Estado");
-        modelo.addColumn("Tipo Licencia");
+        modelo.addColumn("ID Trámite");
         modelo.addColumn("Cédula");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Tipo Licencia");
+        modelo.addColumn("Fecha Solicitud");
+        modelo.addColumn("Estado");
+        modelo.addColumn("Número Licencia");
+        modelo.addColumn("Fecha Emisión");
 
         tableReporte.setModel(modelo);
+        tableReporte.setDefaultEditor(Object.class, null);
 
-        btnRegresar.addActionListener(e -> regresarDashboard());
+        // Configuración del JTextArea
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
 
-        // 🔎 BOTÓN BUSCAR
+        // Buscar
         btnBuscar.addActionListener(e -> cargarReporte());
 
-        // 👁 VER DETALLE
+        // Filtrar mientras escribe
+        txtFiltrar.getDocument().addDocumentListener(new DocumentListener() {
+            public void insertUpdate(DocumentEvent e) { cargarReporte(); }
+            public void removeUpdate(DocumentEvent e) { cargarReporte(); }
+            public void changedUpdate(DocumentEvent e) { cargarReporte(); }
+        });
+
+        // Ver detalle
         btnDetalles.addActionListener(e -> verDetalle());
 
-        // 📤 EXPORTAR CSV
+        // Exportar CSV
         btnExportar.addActionListener(e -> exportarCSV());
+
+        // Regresar
+        btnRegresar.addActionListener(e -> regresarDashboard());
+
+        cargarReporte();
     }
 
-    // ================= BUSCAR =================
+    // CARGAR REPORTE
     private void cargarReporte() {
 
         modelo.setRowCount(0);
 
-        String sql = "SELECT id, fecha, estado, tipo_licencia, cedula " +
-                "FROM licencias WHERE cedula LIKE ?";
+        String sql =
+                "SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, " +
+                        "t.fecha_solicitud, t.estado, " +
+                        "l.numero_licencia, l.fecha_emision " +
+                        "FROM tramite t " +
+                        "JOIN solicitante s ON t.id_solicitante = s.id_solicitante " +
+                        "LEFT JOIN licencia l ON t.id_tramite = l.id_tramite " +
+                        "WHERE s.cedula LIKE ?";
 
-        int totalActivo = 0;
-        int totalInactivo = 0;
-        int totalLicencias = 0;
+        int pendientes = 0, aprobados = 0, reprobados = 0, emitidas = 0;
 
         try (Connection con = new Conexion().getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -74,36 +97,43 @@ public class Reportes extends Btn_Regresar_base {
             while (rs.next()) {
 
                 modelo.addRow(new Object[]{
-                        rs.getInt("id"),
-                        rs.getDate("fecha"),
+                        rs.getInt("id_tramite"),
+                        rs.getString("cedula"),
+                        rs.getString("nombre"),
+                        rs.getString("tipos_licencia"),
+                        rs.getDate("fecha_solicitud"),
                         rs.getString("estado"),
-                        rs.getString("tipo_licencia"),
-                        rs.getString("cedula")
+                        rs.getString("numero_licencia"),
+                        rs.getDate("fecha_emision")
                 });
 
-                totalLicencias++;
-
-                if (rs.getString("estado").equalsIgnoreCase("Activo")) {
-                    totalActivo++;
-                } else {
-                    totalInactivo++;
+                switch (rs.getString("estado")) {
+                    case "pendiente" -> pendientes++;
+                    case "aprobado" -> aprobados++;
+                    case "reprobado" -> reprobados++;
+                    case "licencia_emitida" -> emitidas++;
                 }
             }
 
-            JOptionPane.showMessageDialog(this,
-                    "Totales:\n" +
-                            "Activos: " + totalActivo +
-                            "\nInactivos: " + totalInactivo +
-                            "\nTotal licencias: " + totalLicencias,
-                    "Resumen",
-                    JOptionPane.INFORMATION_MESSAGE);
+            // ACTUALIZAR RESUMEN EN EL JTextArea
+            textArea.setText(
+                            "Pendientes: " + pendientes + "\n" +
+                            "Aprobados: " + aprobados + "\n" +
+                            "Reprobados: " + reprobados + "\n" +
+                            "Licencias Emitidas: " + emitidas + "\n\n" +
+                            "Total de Trámites: " + modelo.getRowCount()
+            );
 
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar reporte",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // ================= VER DETALLE =================
+    //  VER DETALLE
     private void verDetalle() {
 
         int fila = tableReporte.getSelectedRow();
@@ -114,17 +144,21 @@ public class Reportes extends Btn_Regresar_base {
         }
 
         String detalle =
-                "ID: " + modelo.getValueAt(fila, 0) +
-                        "\nFecha: " + modelo.getValueAt(fila, 1) +
-                        "\nEstado: " + modelo.getValueAt(fila, 2) +
+                "ID Trámite: " + modelo.getValueAt(fila, 0) +
+                        "\nCédula: " + modelo.getValueAt(fila, 1) +
+                        "\nNombre: " + modelo.getValueAt(fila, 2) +
                         "\nTipo Licencia: " + modelo.getValueAt(fila, 3) +
-                        "\nCédula: " + modelo.getValueAt(fila, 4);
+                        "\nFecha Solicitud: " + modelo.getValueAt(fila, 4) +
+                        "\nEstado: " + modelo.getValueAt(fila, 5) +
+                        "\nNúmero Licencia: " + modelo.getValueAt(fila, 6) +
+                        "\nFecha Emisión: " + modelo.getValueAt(fila, 7);
 
-        JOptionPane.showMessageDialog(this, detalle, "Detalle Licencia",
+        JOptionPane.showMessageDialog(this, detalle,
+                "Detalle del Trámite",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
-    // ================= EXPORTAR CSV =================
+    //  EXPORTAR CSV
     private void exportarCSV() {
 
         JFileChooser chooser = new JFileChooser();
@@ -141,7 +175,9 @@ public class Reportes extends Btn_Regresar_base {
 
                 for (int i = 0; i < modelo.getRowCount(); i++) {
                     for (int j = 0; j < modelo.getColumnCount(); j++) {
-                        fw.write(modelo.getValueAt(i, j).toString() + ",");
+                        fw.write(
+                                (modelo.getValueAt(i, j) == null ? "" : modelo.getValueAt(i, j)) + ","
+                        );
                     }
                     fw.write("\n");
                 }

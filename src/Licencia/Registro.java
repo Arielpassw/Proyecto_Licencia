@@ -13,10 +13,10 @@ public class Registro extends Btn_Regresar_base {
     private JTextField textCedula;
     private JTextField textFecha;
     private JTextField textNombre;
-    private JTextField textTipo;
     private JButton btnGuardar;
     private JButton btnLimpiar;
     private JButton btnRegresar;
+    private JComboBox comboTipo;
 
 
     public Registro(String rolOrigen) {
@@ -25,7 +25,7 @@ public class Registro extends Btn_Regresar_base {
         setTitle("Registro Solicitante");
         setContentPane(Registrar);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 350);
+        setSize(650, 420);
         setLocationRelativeTo(null);
 
         // nueva conexion con la base de datos
@@ -38,11 +38,18 @@ public class Registro extends Btn_Regresar_base {
         btnGuardar.addActionListener(e -> {
             String cedula = textCedula.getText().trim();
             String nombre = textNombre.getText().trim();
-            String tipoLicencia = textTipo.getText().trim();
+            String tipoLicencia = comboTipo.getSelectedItem().toString();
 
             if (cedula.isEmpty() || nombre.isEmpty() || tipoLicencia.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
                         "Complete todos los campos",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (comboTipo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Seleccione un tipo de licencia",
                         "Validación",
                         JOptionPane.WARNING_MESSAGE);
                 return;
@@ -106,7 +113,6 @@ public class Registro extends Btn_Regresar_base {
         btnLimpiar.addActionListener(e -> {
             textCedula.setText("");
             textNombre.setText("");
-            textTipo.setText("");
             textFecha.setText("");
         });
 

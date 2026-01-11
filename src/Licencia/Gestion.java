@@ -23,45 +23,45 @@ public class Gestion extends Btn_Regresar_base {
     public Gestion(String rolOrigen) {
         super(rolOrigen);
 
-        setTitle("Gestión Trámites");
+        setTitle("Gestión de Trámites");
         setContentPane(Gestionar);
-        setSize(800, 500);
+        setSize(950, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
 
-        // Cargar tabla inicialmente
         cargarTabla("");
 
-        // Botón regresar
         btnRegresar.addActionListener(e -> regresarDashboard());
 
-        // Filtrar en tiempo real mientras escribes
+        // Filtro en tiempo real
         txtFiltrar.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e) {
-                filtrar();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                filtrar();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-                filtrar();
-            }
+            public void insertUpdate(DocumentEvent e) { filtrar(); }
+            public void removeUpdate(DocumentEvent e) { filtrar(); }
+            public void changedUpdate(DocumentEvent e) { filtrar(); }
 
             private void filtrar() {
-                String texto = txtFiltrar.getText().trim();
-                cargarTabla(texto);
+                cargarTabla(txtFiltrar.getText().trim());
             }
         });
 
-        // Botones de acciones (implementación futura)
-        btnVerDetalle.addActionListener(e -> verDetalle());
-        btnMarcarReq.addActionListener(e -> marcarRequisitos());
-        btnRegistrarExamen.addActionListener(e -> registrarExamen());
-        btnGenerarLicencia.addActionListener(e -> generarLicencia());
+        // Ver Detalles
+        btnVerDetalle.addActionListener(e -> abrirDetalles());
+
+        // Marcar Requisitos (se mantiene como placeholder)
+        btnMarcarReq.addActionListener(e ->
+                JOptionPane.showMessageDialog(this,
+                        "Función de requisitos se maneja desde Detalles")
+        );
+
+        // Registrar Examen
+        btnRegistrarExamen.addActionListener(e -> abrirExamen());
+
+        // Generar Licencia
+        btnGenerarLicencia.addActionListener(e -> abrirLicencia());
     }
+
+    //  TABLA
 
     private void cargarTabla(String filtro) {
         DefaultTableModel modelo = new DefaultTableModel();
@@ -70,26 +70,29 @@ public class Gestion extends Btn_Regresar_base {
         modelo.addColumn("ID");
         modelo.addColumn("Cédula");
         modelo.addColumn("Nombre");
-        modelo.addColumn("Tipo");
+        modelo.addColumn("Tipo Licencia");
         modelo.addColumn("Fecha Solicitud");
         modelo.addColumn("Estado");
 
-        String sql = "SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, t.fecha_solicitud, t.estado " +
-                "FROM tramite t JOIN solicitante s ON t.id_solicitante = s.id_solicitante";
+        String sql = """
+                SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia,
+                       t.fecha_solicitud, t.estado
+                FROM tramite t
+                JOIN solicitante s ON t.id_solicitante = s.id_solicitante
+                """;
 
-        // Filtro dinámico por estado, nombre o cédula
         if (!filtro.isEmpty()) {
-            sql += " WHERE t.estado LIKE ? OR s.nombre LIKE ? OR s.cedula LIKE ?";
+            sql += " WHERE s.nombre LIKE ? OR s.cedula LIKE ? OR t.estado LIKE ?";
         }
 
         try (Connection con = new Conexion().getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             if (!filtro.isEmpty()) {
-                String filtroSQL = "%" + filtro + "%";
-                ps.setString(1, filtroSQL);
-                ps.setString(2, filtroSQL);
-                ps.setString(3, filtroSQL);
+                String f = "%" + filtro + "%";
+                ps.setString(1, f);
+                ps.setString(2, f);
+                ps.setString(3, f);
             }
 
             ResultSet rs = ps.executeQuery();
@@ -106,30 +109,48 @@ public class Gestion extends Btn_Regresar_base {
 
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al cargar trámites", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar trámites",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // Métodos placeholder para acciones
-    private void verDetalle() {
+    // ACCIONES
+
+    private int getIdSeleccionado() {
         int fila = tableDatos.getSelectedRow();
-        if (fila != -1) {
-            int idTramite = (int) tableDatos.getValueAt(fila, 0);
-            new Verificar("gestion", idTramite); // Abrir ventana de Verificar
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un trámite primero.");
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione un trámite",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE);
+            return -1;
+        }
+        return (int) tableDatos.getValueAt(fila, 0);
+    }
+
+    private void abrirDetalles() {
+        int id = getIdSeleccionado();
+        if (id != -1) {
+            new Detalles(rolOrigen, id).setVisible(true);
+            setVisible(false);
         }
     }
 
-    private void marcarRequisitos() {
-        JOptionPane.showMessageDialog(this, "Función de marcar requisitos aún no implementada.");
+    private void abrirExamen() {
+        int id = getIdSeleccionado();
+        if (id != -1) {
+            new Examenes(rolOrigen, id).setVisible(true);
+            setVisible(false);
+        }
     }
 
-    private void registrarExamen() {
-        JOptionPane.showMessageDialog(this, "Función de registrar examen aún no implementada.");
-    }
-
-    private void generarLicencia() {
-        JOptionPane.showMessageDialog(this, "Función de generar licencia aún no implementada.");
+    private void abrirLicencia() {
+        int id = getIdSeleccionado();
+        if (id != -1) {
+            new Licencia(rolOrigen, id).setVisible(true);
+            setVisible(false);
+        }
     }
 }

@@ -35,7 +35,7 @@ public class Crear extends Btn_Regresar_base {
 
         setTitle("Crear Usuario");
         setContentPane(crear_user);
-        setSize(500, 400);
+        setSize(750, 550);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

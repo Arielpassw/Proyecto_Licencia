@@ -24,7 +24,7 @@ public class Verificar extends Btn_Regresar_base {
 
         setTitle("Verificación de Requisitos");
         setContentPane(Requisitos);
-        setSize(450, 350);
+        setSize(650, 420);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -100,6 +100,7 @@ public class Verificar extends Btn_Regresar_base {
     }
 
     private void actualizarRequisitos(int aprobado) {
+
         String sql = "UPDATE requisitos SET certificado_medico=?, pago=?, multas=?, observaciones=? WHERE id_tramite=?";
         String sqlEstado = "UPDATE tramite SET estado=? WHERE id_tramite=?";
 
@@ -114,22 +115,25 @@ public class Verificar extends Btn_Regresar_base {
             ps.setInt(5, idTramite);
             ps.executeUpdate();
 
-            // Actualizar estado solo si aprobado
             if (aprobado == 1) {
-                psEstado.setString(1, "en_examenes");
-                psEstado.setInt(2, idTramite);
-                psEstado.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Requisitos aprobados. Estado actualizado a 'en_examenes'.");
+                psEstado.setString(1, "aprobado");
+                JOptionPane.showMessageDialog(this,
+                        "Requisitos aprobados correctamente.\nPuede continuar con los exámenes.");
             } else {
-                psEstado.setString(1, "rechazado");
-                psEstado.setInt(2, idTramite);
-                psEstado.executeUpdate();
-                JOptionPane.showMessageDialog(this, "Requisitos rechazados. Estado actualizado a 'rechazado'.");
+                psEstado.setString(1, "reprobado");
+                JOptionPane.showMessageDialog(this,
+                        "Requisitos rechazados.\nEl trámite ha sido reprobado.");
             }
 
+            psEstado.setInt(2, idTramite);
+            psEstado.executeUpdate();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al actualizar requisitos", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Error al actualizar requisitos",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }
