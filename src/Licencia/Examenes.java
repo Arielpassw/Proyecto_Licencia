@@ -28,6 +28,7 @@ public class Examenes extends Btn_Regresar_base {
         btnRegresar.addActionListener(e -> regresarDashboard());
 
         btnGuardar.addActionListener(e -> guardarNotas());
+
     }
 
     private void guardarNotas() {

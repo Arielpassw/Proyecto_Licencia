@@ -33,6 +33,7 @@ public class Administrador extends JFrame {
 
         cargarTablaAdmin();
 
+
         // Bloquear edición de la tabla
         table1.setDefaultEditor(Object.class, null);
 
@@ -104,7 +105,7 @@ public class Administrador extends JFrame {
                 "SELECT " +
                         "t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, " +
                         "t.fecha_solicitud, t.estado, " +
-                        "(SELECT e.resultado FROM examen e WHERE e.id_tramite = t.id_tramite LIMIT 1) AS resultado, " +
+                        "(SELECT e.resultado FROM examen e WHERE e.id_tramite = t.id_tramite ORDER BY e.id_examen DESC LIMIT 1) AS resultado, " +
                         "(SELECT r.observaciones FROM requisitos r WHERE r.id_tramite = t.id_tramite LIMIT 1) AS observaciones, " +
                         "(SELECT IFNULL(r.certificado_medico,0) FROM requisitos r WHERE r.id_tramite = t.id_tramite LIMIT 1) AS certificado_medico " +
                         "FROM tramite t " +
