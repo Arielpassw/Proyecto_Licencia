@@ -19,7 +19,6 @@ public class Administrador extends JFrame {
     private JButton btnCerrar;
     private JButton btnDetalles;
     private JButton btnLicencia;
-    private JButton btnUsuarios;
     private JButton btnReportes;
     private JButton crearUsuarioButton;
     private JTable table1;
