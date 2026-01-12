@@ -55,15 +55,12 @@ public class Registro extends Btn_Regresar_base {
                 return;
             }
 
-            String sqlSolicitante = """
-        INSERT INTO solicitante (cedula, nombre, tipos_licencia)
-        VALUES (?, ?, ?)
-    """;
+            String sqlSolicitante = "INSERT INTO solicitante (cedula, nombre, tipos_licencia) " +
+                    "VALUES (?, ?, ?)";
 
-            String sqlTramite = """
-        INSERT INTO tramite (id_solicitante, fecha_solicitud, estado)
-        VALUES (?, CURDATE(), 'pendiente')
-    """;
+            String sqlTramite = "INSERT INTO tramite (id_solicitante, fecha_solicitud, estado) " +
+                    "VALUES (?, CURDATE(), 'pendiente')";
+
             Conexion conexion = new Conexion();
             try (Connection con = conexion.getConexion()) {
                 if (con == null) {

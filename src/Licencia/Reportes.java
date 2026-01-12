@@ -108,11 +108,20 @@ public class Reportes extends Btn_Regresar_base {
                 });
 
                 switch (rs.getString("estado")) {
-                    case "pendiente" -> pendientes++;
-                    case "aprobado" -> aprobados++;
-                    case "reprobado" -> reprobados++;
-                    case "licencia_emitida" -> emitidas++;
+                    case "pendiente":
+                        pendientes++;
+                        break;
+                    case "aprobado":
+                        aprobados++;
+                        break;
+                    case "reprobado":
+                        reprobados++;
+                        break;
+                    case "licencia_emitida":
+                        emitidas++;
+                        break;
                 }
+
             }
 
             // ACTUALIZAR RESUMEN EN EL JTextArea

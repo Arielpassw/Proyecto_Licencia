@@ -117,18 +117,17 @@ public class Licencia extends Btn_Regresar_base {
 
     // Cargar Datos
     private void cargarDatosSolicitante() {
-        String sql = """
-        SELECT s.cedula, s.nombre , s.tipos_licencia
-        FROM tramite t
-        JOIN solicitante s ON t.id_solicitante = s.id_solicitante
-        WHERE t.id_tramite = ?
-    """;
+        String sql = "SELECT s.cedula, s.nombre, s.tipos_licencia " +
+                "FROM tramite t " +
+                "JOIN solicitante s ON t.id_solicitante = s.id_solicitante " +
+                "WHERE t.id_tramite = ?";
+
 
         try (Connection con = new Conexion().getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idTramite);
-            var rs = ps.executeQuery();
+            java.sql.ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 txtLicencia.setText(rs.getString("cedula"));
@@ -148,16 +147,13 @@ public class Licencia extends Btn_Regresar_base {
 
     // Guardar Licencia
     private void guardarLicencia() {
-        String sqlLicencia = """
-            INSERT INTO licencia 
-            (id_tramite, numero_licencia, fecha_emision, fecha_vencimiento)
-            VALUES (?, ?, ?, ?)
-        """;
+        String sqlLicencia = "INSERT INTO licencia " +
+                "(id_tramite, numero_licencia, fecha_emision, fecha_vencimiento) " +
+                "VALUES (?, ?, ?, ?)";
 
-        String sqlEstado = """
-            UPDATE tramite SET estado = 'licencia_emitida'
-            WHERE id_tramite = ?
-        """;
+        String sqlEstado = "UPDATE tramite SET estado = 'licencia_emitida' " +
+                "WHERE id_tramite = ?";
+
 
         try (Connection con = new Conexion().getConexion();
              PreparedStatement psLic = con.prepareStatement(sqlLicencia);
