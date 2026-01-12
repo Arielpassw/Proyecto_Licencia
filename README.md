@@ -82,7 +82,9 @@ Incluye todas las funciones del Analista y además:
 - Si todo es correcto → estado **en_examenes**
 **Primero nos pide seleccionar un tramite**
 <img width="339" height="160" alt="image" src="https://github.com/user-attachments/assets/c3dce98b-6cac-44bf-8c51-7aa8fa2a474b" />
-Luego nos muestra la siguiente ventana 
+
+Luego nos muestra la siguiente ventana
+
 <img width="792" height="507" alt="image" src="https://github.com/user-attachments/assets/98240bd5-de8c-4df6-9e6a-7ab3d258f3d2" />
 
 ### Registro de Exámenes
@@ -112,6 +114,7 @@ En esta interfaz se puede filtrar datos, ver sus detalles, registrar examen y ge
 - Generación de PDF
 - Cambio de estado a **licencia_emitida**
 <img width="864" height="614" alt="image" src="https://github.com/user-attachments/assets/5790357e-6937-442c-9dd0-29ee62bc9e83" />
+
 Aqui puede agregar una imagen guardar la licencia o exportarla.
 
 ### Reportes (Administrador)
@@ -156,8 +159,10 @@ Aqui puede agregar una imagen guardar la licencia o exportarla.
 ## Estructura del Proyecto
 
 <img width="481" height="872" alt="image" src="https://github.com/user-attachments/assets/fe0e2493-1d12-4fb8-a19c-aef45da9cf63" />
+
 **DataBase (dao)**
 En este paquete se encuentra la conexión del programa con la base de datos en la nube. 
+
 <img width="160" height="69" alt="image" src="https://github.com/user-attachments/assets/1b3cfdf3-964c-498c-ad54-ba075b965840" />
 
 **Licencia (UI-models)**
@@ -165,10 +170,12 @@ En este paquete se encuentran los forms y parte de las clases modelos, las cuale
 ## Clase Btn_Regresar_base
 Es una clase creada para hacer que funcione el boton regresar de los formularios, en este se programó la funcionalidad respectiva dependiendo las credenciales 
 del login nos redireccionará al dashboard correspondiente (ADMIN-ANALISTA). 
+
 <img width="363" height="688" alt="image" src="https://github.com/user-attachments/assets/3a890138-3d87-49d2-a803-5ed34d38c923" />
 
 ## Clase Main
 En esta clase encuentra la estructura para hacer visible el panel Login 
+
 <img width="462" height="218" alt="image" src="https://github.com/user-attachments/assets/2c4c0c7e-d9a2-453d-8ab4-316f58bcf2f5" />
 
 ---
