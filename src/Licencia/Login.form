@@ -7,23 +7,24 @@
     </constraints>
     <properties>
       <background color="-3813923"/>
+      <foreground color="-1"/>
     </properties>
     <border type="none"/>
     <children>
       <component id="59d28" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="2" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="User"/>
+          <text value="Usuario"/>
         </properties>
       </component>
       <component id="e0e0e" class="javax.swing.JLabel">
         <constraints>
-          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="1" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Password"/>
+          <text value="Contraseña"/>
         </properties>
       </component>
       <hspacer id="d1ef7">
@@ -41,6 +42,9 @@
           <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-14241501"/>
+          <enabled value="true"/>
+          <foreground color="-1"/>
           <text value="Ingresar"/>
         </properties>
       </component>

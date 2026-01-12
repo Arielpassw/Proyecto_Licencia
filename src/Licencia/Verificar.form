@@ -13,7 +13,7 @@
     <children>
       <component id="da332" class="javax.swing.JLabel">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Cértificado Médico"/>
@@ -35,7 +35,7 @@
         </constraints>
         <properties>
           <font size="20"/>
-          <text value="Verificar Requsitos "/>
+          <text value="Verificar Requisitos "/>
         </properties>
       </component>
       <vspacer id="86a7">
@@ -45,7 +45,7 @@
       </vspacer>
       <component id="ca5fd" class="javax.swing.JTextField" binding="txtPago">
         <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -53,7 +53,7 @@
       </component>
       <component id="a122d" class="javax.swing.JLabel">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Pago "/>
@@ -61,7 +61,7 @@
       </component>
       <component id="18bd7" class="javax.swing.JTextField" binding="txtCertificado">
         <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
@@ -74,7 +74,7 @@
       </vspacer>
       <component id="40dc4" class="javax.swing.JLabel">
         <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Observaciones"/>
@@ -113,6 +113,8 @@
           <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-14241501"/>
+          <foreground color="-1"/>
           <text value="Aprobar"/>
         </properties>
       </component>
@@ -121,6 +123,8 @@
           <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-1766881"/>
+          <foreground color="-1"/>
           <text value="Rechazar"/>
         </properties>
       </component>
@@ -129,6 +133,8 @@
           <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-2385652"/>
+          <foreground color="-1"/>
           <text value="Regresar"/>
         </properties>
       </component>

@@ -74,12 +74,11 @@ public class Gestion extends Btn_Regresar_base {
         modelo.addColumn("Fecha Solicitud");
         modelo.addColumn("Estado");
 
-        String sql = """
-                SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia,
-                       t.fecha_solicitud, t.estado
-                FROM tramite t
-                JOIN solicitante s ON t.id_solicitante = s.id_solicitante
-                """;
+        String sql = "SELECT t.id_tramite, s.cedula, s.nombre, s.tipos_licencia, " +
+                "t.fecha_solicitud, t.estado " +
+                "FROM tramite t " +
+                "JOIN solicitante s ON t.id_solicitante = s.id_solicitante";
+
 
         if (!filtro.isEmpty()) {
             sql += " WHERE s.nombre LIKE ? OR s.cedula LIKE ? OR t.estado LIKE ?";

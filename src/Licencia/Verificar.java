@@ -69,7 +69,8 @@ public class Verificar extends Btn_Regresar_base {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idTramite);
-            var rs = ps.executeQuery();
+            java.sql.ResultSet rs = ps.executeQuery();
+
 
             if (rs.next()) {
                 txtCertificado.setText(rs.getInt("certificado_medico") == 1 ? "Presentado" : "No presentado");

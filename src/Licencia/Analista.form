@@ -41,7 +41,7 @@
       </component>
       <component id="fbea5" class="javax.swing.JButton" binding="btnResgistar">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Registrar  Solicitante "/>
@@ -72,15 +72,15 @@
       </component>
       <component id="d0e51" class="javax.swing.JButton" binding="btnVerificar">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Verificar "/>
+          <text value="Verificar Requisitos"/>
         </properties>
       </component>
       <component id="db980" class="javax.swing.JButton" binding="btnExamenes">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Registrar Exámenes"/>
@@ -88,7 +88,7 @@
       </component>
       <component id="3b5dd" class="javax.swing.JButton" binding="btnDetalles">
         <constraints>
-          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Detalle de Trámite "/>
@@ -96,7 +96,7 @@
       </component>
       <component id="b5b35" class="javax.swing.JButton" binding="btnTramites">
         <constraints>
-          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Gestión Trámites "/>
@@ -104,7 +104,7 @@
       </component>
       <component id="fd2b0" class="javax.swing.JButton" binding="btnLicencia">
         <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value="Generar Licencia "/>

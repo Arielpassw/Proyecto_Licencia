@@ -13,10 +13,10 @@ public class Registro extends Btn_Regresar_base {
     private JTextField textCedula;
     private JTextField textFecha;
     private JTextField textNombre;
-    private JTextField textTipo;
     private JButton btnGuardar;
     private JButton btnLimpiar;
     private JButton btnRegresar;
+    private JComboBox comboTipo;
 
 
     public Registro(String rolOrigen) {
@@ -38,7 +38,7 @@ public class Registro extends Btn_Regresar_base {
         btnGuardar.addActionListener(e -> {
             String cedula = textCedula.getText().trim();
             String nombre = textNombre.getText().trim();
-            String tipoLicencia = textTipo.getText().trim();
+            String tipoLicencia = comboTipo.getSelectedItem().toString();
 
             if (cedula.isEmpty() || nombre.isEmpty() || tipoLicencia.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -47,16 +47,20 @@ public class Registro extends Btn_Regresar_base {
                         JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            if (comboTipo.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Seleccione un tipo de licencia",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-            String sqlSolicitante = """
-        INSERT INTO solicitante (cedula, nombre, tipos_licencia)
-        VALUES (?, ?, ?)
-    """;
+            String sqlSolicitante = "INSERT INTO solicitante (cedula, nombre, tipos_licencia) " +
+                    "VALUES (?, ?, ?)";
 
-            String sqlTramite = """
-        INSERT INTO tramite (id_solicitante, fecha_solicitud, estado)
-        VALUES (?, CURDATE(), 'pendiente')
-    """;
+            String sqlTramite = "INSERT INTO tramite (id_solicitante, fecha_solicitud, estado) " +
+                    "VALUES (?, CURDATE(), 'pendiente')";
+
             Conexion conexion = new Conexion();
             try (Connection con = conexion.getConexion()) {
                 if (con == null) {
@@ -106,7 +110,6 @@ public class Registro extends Btn_Regresar_base {
         btnLimpiar.addActionListener(e -> {
             textCedula.setText("");
             textNombre.setText("");
-            textTipo.setText("");
             textFecha.setText("");
         });
 
